@@ -15,6 +15,8 @@ const HomeScreen = () => {
     async function loadFont() {
       await Font.loadAsync({
         'poppin': require('../assets/fonts/Poppins-Bold.ttf'),
+        'poppins-regular': require('../assets/fonts/Poppins-Regular.ttf'),
+        'poppins-semibold': require('../assets/fonts/Poppins-SemiBold.ttf'),
         // Add more fonts as needed
       });
       setFontLoaded(true);

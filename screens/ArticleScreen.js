@@ -100,6 +100,7 @@ const ArticleScreen = ({ route }) => {
             p: {
               marginBottom: 3,
               fontSize: 14.5,
+              fontFamily: 'poppins-semibold',
               lineHeight: 24,
               textAlign: 'justify',
             },

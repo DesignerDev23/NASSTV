@@ -6,6 +6,8 @@ import AboutUsScreen from '../screens/AboutUsScreen';
 import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen'; 
 import ContactUsScreen from '../screens/ContactUsScreen';
 import TermsOfService from '../screens/TermsOfService';
+import VideoList from '../components/VideoList';
+import VideoScreen from '../screens/VideoScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -20,6 +22,7 @@ const DrawerNavigator = () => (
     <Drawer.Screen name="AboutUs" component={AboutUsScreen} />
     <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
     <Drawer.Screen name="ContactUs" component={ContactUsScreen} />
+    <Drawer.Screen name="Video" component={VideoScreen} />
     <Drawer.Screen name="TermsOfService" component={TermsOfService} />
     {/* No need to add additional screens unless required */}
   </Drawer.Navigator>

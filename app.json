@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "NASSTV",
-    "slug": "NASSTV",
+    "slug": "nasstv-8vtyd7nay3rq2s4md9zvt",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,16 +12,24 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.designer.dev23.NASSTV"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.designer.dev23.NASSTV"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "300ad919-8d33-4b20-b0e3-b52019d3d44b"
+      }
+    },
+    "owner": "designer.dev23"
   }
 }

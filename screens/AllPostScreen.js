@@ -91,15 +91,16 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   title: {
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontFamily: 'poppins-semibold',
     height: 'auto',
     color: '#00923F',
   },
   date: {
     color: '#888',
-    fontSize: 12,
+    fontSize: 10,
     marginTop: 5,
+    fontFamily: 'poppins-regular',
   },
 });
 

@@ -4,7 +4,7 @@ import { getYouTubeVideos } from '../api/youtubeApi'; // Update the path to your
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment'; // Import moment library for date formatting
 
-const VideoList = ({ channelId, searchQuery }) => {
+const VideoList = ({ channelId, searchQuery = '' }) => {
   const navigation = useNavigation();
   const [videos, setVideos] = useState([]);
   const [filteredVideos, setFilteredVideos] = useState([]);
@@ -14,15 +14,14 @@ const VideoList = ({ channelId, searchQuery }) => {
   }, []);
 
   useEffect(() => {
-    // Filter videos whenever searchQuery changes
     filterVideos();
-  }, [searchQuery]);
+  }, [searchQuery, videos]);
 
   const fetchYouTubeVideos = async () => {
     try {
-      const videosData = await getYouTubeVideos(channelId); // Pass the channel ID to fetch videos
+      const videosData = await getYouTubeVideos(channelId);
       setVideos(videosData);
-      setFilteredVideos(videosData); // Initialize filtered videos with all videos
+      setFilteredVideos(videosData);
     } catch (error) {
       console.error('Error fetching YouTube videos:', error);
     }
@@ -30,7 +29,7 @@ const VideoList = ({ channelId, searchQuery }) => {
 
   const filterVideos = () => {
     if (searchQuery.trim() === '') {
-      setFilteredVideos(videos); // If search query is empty, show all videos
+      setFilteredVideos(videos);
     } else {
       const filtered = videos.filter(video =>
         video.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -109,14 +108,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontFamily: 'poppins-semibold',
     height: 'auto',
     color: '#00923F',
   },
   details: {
-    fontSize: 12,
+    fontSize: 10,
     color: '#888',
     paddingRight: 25,
+    fontFamily: 'poppins-regular',
     lineHeight: 20,
   },
 });
