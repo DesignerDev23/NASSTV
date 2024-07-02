@@ -62,7 +62,7 @@ const Sidebar = ({ navigation }) => {
       
       {/* Social Media Section */}
       <Text style={styles.sectionTitle}>Follow Us</Text>
-      <SocialMediaIcons />
+      <SocialMediaIcons style={styles.socialIcons} />
     </View>
   );
 };
@@ -97,10 +97,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
   },
+  socialIcons: {
+    borderRadius: 6,
+  },
   iconContainer: {
     width: 30,
     height: 30,
-    borderRadius: 6,
+    borderRadius: 7,
     backgroundColor: '#00923F',
     alignItems: 'center',
     justifyContent: 'center',
@@ -127,6 +130,7 @@ const styles = StyleSheet.create({
   socialMediaContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderRadius: 5,
   },
   socialMediaIcon: {
     padding: 8,

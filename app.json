@@ -2,7 +2,7 @@
   "expo": {
     "name": "NASSTV",
     "slug": "nasstv-8vtyd7nay3rq2s4md9zvt",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -13,7 +13,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.designer.dev23.NASSTV"
+      "bundleIdentifier": "com.designer.dev23.NASSTV",
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {

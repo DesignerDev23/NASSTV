@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Image, Text, StyleSheet } from 'react-native';
+import { ScrollView, View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { getPosts } from '../api/wpApi';
+import { useNavigation } from '@react-navigation/native';
 
 const Slider = () => {
   const [posts, setPosts] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -17,15 +19,19 @@ const Slider = () => {
     fetchPosts();
   }, []);
 
+  const handlePress = (postId) => {
+    navigation.navigate('Article', { postId });
+  };
+
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.slider}>
       {posts.map((post) => (
-        <View key={post.id} style={styles.slide}>
+        <TouchableOpacity key={post.id} onPress={() => handlePress(post.id)} style={styles.slide}>
           <Image source={{ uri: post.featuredImage.node.sourceUrl }} style={styles.image} />
           <View style={styles.overlay}>
             <Text style={styles.title}>{post.title}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
       ))}
     </ScrollView>
   );
@@ -53,11 +59,11 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#fff',
-    fontSize: 20,
-    top: 70,
+    fontSize: 18,
+    top: 50,
     textAlign: 'left',
-    fontWeight: 'bold',
-    paddingHorizontal: 20,
+    fontFamily: 'poppin',
+    paddingHorizontal: 10,
   },
 });
 

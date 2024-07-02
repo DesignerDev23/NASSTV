@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, Share, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, Share, Alert, StatusBar } from 'react-native';
 import { WebView } from 'react-native-webview';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { AntDesign, Feather, FontAwesome6 } from '@expo/vector-icons';
 import { getYouTubeVideoDetails } from '../api/youtubeApi';
 import VideoList from '../components/VideoList';
-import { AntDesign, Feather } from '@expo/vector-icons';
 import Loader from '../components/Loader';
 import moment from 'moment'; // Import moment library for date formatting
 import * as FileSystem from 'expo-file-system';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 const VideoScreen = ({ route }) => {
   const { videoId } = route.params;
@@ -16,6 +15,7 @@ const VideoScreen = ({ route }) => {
   const [isLiked, setIsLiked] = useState(false);
   const screenWidth = Dimensions.get('window').width;
   const videoHeight = 300; // Height of the video container
+  const navigation = useNavigation(); // Initialize useNavigation hook
 
   useEffect(() => {
     fetchVideoDetails();
@@ -61,6 +61,7 @@ const VideoScreen = ({ route }) => {
       Alert.alert('Download Error', 'Failed to download the file. Please try again.');
     }
   };
+
   const handleShare = async () => {
     try {
       const result = await Share.share({
@@ -86,6 +87,12 @@ const VideoScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#fff" /> 
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <AntDesign name="arrowleft" size={24} color="#000" />
+        </TouchableOpacity>
+      </View>
       <View style={styles.videoContainer}>
         <WebView
           style={{ width: screenWidth, height: videoHeight }}
@@ -98,21 +105,12 @@ const VideoScreen = ({ route }) => {
       <ScrollView style={[styles.scrollContainer, { marginTop: videoHeight }]}>
         <View style={styles.detailsContainer}>
           <Text style={styles.videoTitle}>{videoDetails.title}</Text>
-          <View style={styles.metaContainer}>
-            <Text style={styles.metaText}>{videoDetails.totalViews} Views</Text>
-            <Text style={styles.metaText}>{renderRelativeTime(videoDetails.publishedAt)}</Text>
-          </View>
-          <View style={styles.actionsContainer}>
-            <TouchableOpacity onPress={handleLike} style={styles.actionButton}>
-              <AntDesign name={isLiked ? 'like1' : 'like2'} size={19} color="#fff" />
-              <Text style={styles.actionText}>{isLiked ? 'Liked' : 'Like'}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleDownload} style={styles.actionButton}>
-              <Feather name="download" size={19} color="#fff" />
-              <Text style={styles.actionText}>Download</Text>
-            </TouchableOpacity>
+          <View style={styles.details}>
+            <Text style={styles.detailText}>
+              {videoDetails.totalViews} Views | {moment(videoDetails.publishedAt).fromNow()}
+            </Text>
             <TouchableOpacity onPress={handleShare} style={styles.actionButton}>
-              <Feather name="send" size={19} color="#fff" />
+              <FontAwesome6 name="share-from-square" size={14} color="#fff" />
               <Text style={styles.actionText}>Share</Text>
             </TouchableOpacity>
           </View>
@@ -131,9 +129,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    backgroundColor: '#fff',
+  },
+  backButton: {
+    padding: 5,
+    top: 5,
+  },
   videoContainer: {
     position: 'absolute',
-    top: 0,
+    top: 50, // Adjusted to account for the header
     left: 0,
     right: 0,
     zIndex: 1,
@@ -150,7 +159,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'poppin',
     marginBottom: 10,
-    marginLeft: 14,
+    marginLeft: 10,
     color: '#00923F',
   },
   metaContainer: {
@@ -165,18 +174,30 @@ const styles = StyleSheet.create({
     marginLeft: 14,
     marginRight: 14,
   },
+  details: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  detailText: {
+    fontSize: 12,
+    color: '#888',
+  },
   actionsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 5,
+    justifyContent: 'flex-end',
   },
   actionButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    gap: 5,
-    paddingVertical: 5,
+    paddingHorizontal: 12,
+    gap: 3,
+    paddingVertical: 9,
     borderRadius: 20,
+    right: 20,
     backgroundColor: '#00923F',
   },
   actionText: {

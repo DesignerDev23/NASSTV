@@ -1,4 +1,3 @@
-// Import necessary libraries
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { getPostById } from '../api/wpApi';
@@ -6,19 +5,18 @@ import HTML from 'react-native-render-html';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
+import { useNavigation } from '@react-navigation/native';
 
-// Define ArticleScreen component
 const ArticleScreen = ({ route }) => {
   const { postId } = route.params;
   const [post, setPost] = useState(null);
   const [isLiked, setLiked] = useState(false);
+  const navigation = useNavigation();
 
-  // Fetch post data on component mount
   useEffect(() => {
     fetchPost();
   }, []);
 
-  // Fetch post data function
   const fetchPost = async () => {
     try {
       const postData = await getPostById(postId);
@@ -28,12 +26,10 @@ const ArticleScreen = ({ route }) => {
     }
   };
 
-  // Handle like button press
   const handleLike = () => {
     setLiked(!isLiked);
   };
 
-  // Share on social media
   const shareOnTwitter = () => {
     if (!post) return;
     const message = `Check out this post: ${post.title}\n${post.link}`;
@@ -62,13 +58,17 @@ const ArticleScreen = ({ route }) => {
     Linking.openURL(url);
   };
 
-  // Return JSX
   if (!post) {
     return <Loader />;
   }
 
   return (
     <ScrollView style={localStyles.container}>
+      {/* Back Button */}
+      <TouchableOpacity style={localStyles.backButton} onPress={() => navigation.goBack()}>
+        <Ionicons name="arrow-back" size={24} color="#00923F" />
+      </TouchableOpacity>
+
       {/* Featured Image */}
       <Image source={{ uri: post.featuredImage.node.sourceUrl }} style={localStyles.featuredImage} />
 
@@ -87,8 +87,6 @@ const ArticleScreen = ({ route }) => {
             ))}
           </View>
         )}
-
-        {/* Time Posted */}
       </View>
 
       {/* Post Content */}
@@ -96,7 +94,6 @@ const ArticleScreen = ({ route }) => {
         <HTML
           source={{ html: `<div style="font-family: 'poppin';">${post.content}</div>` }}
           tagsStyles={{
-            // You can still adjust other styles if needed
             p: {
               marginBottom: 3,
               fontSize: 14.5,
@@ -109,10 +106,7 @@ const ArticleScreen = ({ route }) => {
       </View>
 
       {/* Like Button */}
-      <TouchableOpacity
-        style={[localStyles.likeButton, isLiked && localStyles.likedButton]}
-        onPress={handleLike}
-      >
+      <TouchableOpacity style={[localStyles.likeButton, isLiked && localStyles.likedButton]} onPress={handleLike}>
         <FontAwesomeIcon name={isLiked ? 'heart' : 'heart-o'} size={24} color="#00923F" />
       </TouchableOpacity>
 
@@ -135,11 +129,20 @@ const ArticleScreen = ({ route }) => {
   );
 };
 
-// Styles
 const localStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  backButton: {
+    position: 'absolute',
+    top: 16,
+    left: 16,
+    zIndex: 1,
+    elevation: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    borderRadius: 50,
+    padding: 10,
   },
   featuredImage: {
     height: 300,
@@ -212,5 +215,4 @@ const localStyles = StyleSheet.create({
   },
 });
 
-// Export the component
 export default ArticleScreen;

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
+import { View, FlatList, TouchableOpacity, Text, Image, StyleSheet, StatusBar, Platform } from 'react-native';
 import { getPosts } from '../api/wpApi';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const AllPostsScreen = () => {
   const navigation = useNavigation();
@@ -45,11 +46,13 @@ const AllPostsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'} />
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id.toString()} // Ensure each item has a unique key
         renderItem={renderPostItem}
         contentContainerStyle={styles.flatListContainer}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -58,7 +61,8 @@ const AllPostsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    paddingTop: 40,
+    paddingHorizontal: 16,
     backgroundColor: '#fff',
   },
   flatListContainer: {
@@ -70,8 +74,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 100,
     overflow: 'hidden',
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
   imageContainer: {
     width: 136,
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
   },
   date: {
     color: '#888',
-    fontSize: 10,
+    fontSize: 12,
     marginTop: 5,
     fontFamily: 'poppins-regular',
   },

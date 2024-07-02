@@ -68,6 +68,7 @@ const VideoList = ({ channelId, searchQuery = '' }) => {
         keyExtractor={(item) => item.id}
         renderItem={renderVideoItem}
         contentContainerStyle={styles.flatListContainer}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -87,8 +88,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 10,
     overflow: 'hidden',
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
   horizontalLine: {
     borderBottomWidth: 1,
@@ -107,7 +106,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   title: {
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: 'poppins-semibold',
     height: 'auto',
     color: '#00923F',
